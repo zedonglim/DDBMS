@@ -7,7 +7,7 @@ connection = pymysql.connect(
     user='your_user',
     password='your_password',
     database='your_database',
-    port='your_port'
+    port=your_port
 )
 
 # Create a cursor object to execute SQL queries

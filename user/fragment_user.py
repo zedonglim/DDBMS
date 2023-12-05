@@ -25,8 +25,42 @@ for row in rows:
 
 # Write the dbms1 SQL file
 with open('user_dbms1.sql', 'w') as file:
+    file.write("DROP TABLE IF EXISTS `user`;\n")
+    file.write("CREATE TABLE `user` (\n" + \
+            "  `timestamp` char(14) DEFAULT NULL,\n" + \
+            "  `id` char(5) DEFAULT NULL,\n" + \
+            "  `uid` char(5) DEFAULT NULL,\n" + \
+            "  `name` char(9) DEFAULT NULL,\n" +  \
+            "  `gender` char(7) DEFAULT NULL,\n" +  \
+            "  `email` char(10) DEFAULT NULL,\n" +  \
+            "  `phone` char(10) DEFAULT NULL,\n" +  \
+            "  `dept` char(9) DEFAULT NULL,\n" +  \
+            "  `grade` char(7) DEFAULT NULL,\n" +  \
+            "  `language` char(3) DEFAULT NULL,\n" +  \
+            "  `region` char(10) DEFAULT NULL,\n" +  \
+            "  `role` char(6) DEFAULT NULL,\n" +  \
+            "  `preferTags` char(7) DEFAULT NULL,\n" +  \
+            "  `obtainedCredits` char(3) DEFAULT NULL\n) ENGINE=InnoDB DEFAULT CHARSET=utf8;\n\n")
+    file.write("LOCK TABLES `user` WRITE;\n")
     file.write('INSERT INTO `user` VALUES\n' + "".join(dbms1_rows) + ';')
 
 # Write the dbms2 SQL file
 with open('user_dbms2.sql', 'w') as file:
+    file.write("DROP TABLE IF EXISTS `user`;\n")
+    file.write("CREATE TABLE `user` (\n" + \
+            "  `timestamp` char(14) DEFAULT NULL,\n" + \
+            "  `id` char(5) DEFAULT NULL,\n" + \
+            "  `uid` char(5) DEFAULT NULL,\n" + \
+            "  `name` char(9) DEFAULT NULL,\n" +  \
+            "  `gender` char(7) DEFAULT NULL,\n" +  \
+            "  `email` char(10) DEFAULT NULL,\n" +  \
+            "  `phone` char(10) DEFAULT NULL,\n" +  \
+            "  `dept` char(9) DEFAULT NULL,\n" +  \
+            "  `grade` char(7) DEFAULT NULL,\n" +  \
+            "  `language` char(3) DEFAULT NULL,\n" +  \
+            "  `region` char(10) DEFAULT NULL,\n" +  \
+            "  `role` char(6) DEFAULT NULL,\n" +  \
+            "  `preferTags` char(7) DEFAULT NULL,\n" +  \
+            "  `obtainedCredits` char(3) DEFAULT NULL\n) ENGINE=InnoDB DEFAULT CHARSET=utf8;\n\n")
+    file.write("LOCK TABLES `user` WRITE;\n")
     file.write('INSERT INTO `user` VALUES\n' + ''.join(dbms2_rows) + ';')

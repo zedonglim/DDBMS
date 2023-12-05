@@ -3,11 +3,11 @@ import random
 
 # Connect to your MySQL database
 connection = pymysql.connect(
-    host='your_host',
-    user='your_user',
-    password='your_password',
-    database='your_database',
-    port=your_port
+    host='127.0.0.1',
+    user='root',
+    password='TAN@mysql',
+    database='dmbs1',
+    port=3306
 )
 
 # Create a cursor object to execute SQL queries

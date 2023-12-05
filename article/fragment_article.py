@@ -35,8 +35,8 @@ with open('article_dbms1.sql', 'w') as file:
             "  `authors` char(13) DEFAULT NULL,\n" +  \
             "  `language` char(3) DEFAULT NULL,\n" +  \
             "  `text` char(31) DEFAULT NULL,\n" +  \
-            "  `image` char(32) DEFAULT NULL,\n" +  \
-            "  `video` char(32) DEFAULT NULL\n) ENGINE=InnoDB DEFAULT CHARSET=utf8;\n\n")
+            "  `image` char(64) DEFAULT NULL,\n" +  \
+            "  `video` char(64) DEFAULT NULL\n) ENGINE=InnoDB DEFAULT CHARSET=utf8;\n\n")
     file.write("LOCK TABLES `article` WRITE;\n")
     
     file.write('INSERT INTO `article` VALUES\n' + "".join(dbms1_rows) + ';')
@@ -55,8 +55,7 @@ with open('article_dbms1.sql', 'w') as file:
 #             "  `authors` char(13) DEFAULT NULL,\n" +  \
 #             "  `language` char(3) DEFAULT NULL,\n" +  \
 #             "  `text` char(31) DEFAULT NULL,\n" +  \
-#             "  `image` char(32) DEFAULT NULL,\n" +  \
-#             "  `video` char(32) DEFAULT NULL\n) ENGINE=InnoDB DEFAULT CHARSET=utf8;\n\n")
+#             "  `image` char(64) DEFAULT NULL,\n" +  \
+#             "  `video` char(64) DEFAULT NULL\n) ENGINE=InnoDB DEFAULT CHARSET=utf8;\n\n")
 #     file.write("LOCK TABLES `article` WRITE;\n")
 #     file.write('INSERT INTO `article` VALUES\n' + ''.join(dbms2_rows) + ';')
-#     file.write("UNLOCK TABLES;\n\n\n")

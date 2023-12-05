@@ -10,8 +10,8 @@ CREATE TABLE `article` (
   `authors` char(13) DEFAULT NULL,
   `language` char(3) DEFAULT NULL,
   `text` char(31) DEFAULT NULL,
-  `image` char(32) DEFAULT NULL,
-  `video` char(32) DEFAULT NULL
+  `image` char(64) DEFAULT NULL,
+  `video` char(64) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 LOCK TABLES `article` WRITE;
@@ -4477,5 +4477,3 @@ INSERT INTO `article` VALUES
   ("1506000009998", "a9998", "9998", "title9998", "science", "abstract of article 9998", "tags41", "author1065", "en", "text_a9998.txt", "image_a9998_0.jpg,image_a9998_1.jpg,", ""),
   ("1506000009999", "a9999", "9999", "title9999", "science", "abstract of article 9999", "tags25", "author49", "en", "text_a9999.txt", "image_a9999_0.jpg,", "");
 UNLOCK TABLES;
-
-

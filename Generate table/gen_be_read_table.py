@@ -66,6 +66,7 @@ with open("be_read.sql", "w+") as f:
     for read in reads:
         aid = read[3]  # Assuming the column index for 'aid' in user_read table is 3
         uid = read[2]  # Assuming the column index for 'uid' in user_read table is 2
+        # timestamp = read[1] # Assuming the column index for 'timestamp' in user_read table is 1
 
         if aid not in distinct_aids:
             distinct_aids.add(aid)

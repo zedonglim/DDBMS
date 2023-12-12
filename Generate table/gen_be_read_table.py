@@ -107,7 +107,7 @@ with open("be_read.sql", "w+") as f:
         share_num = share_count.get(aid, 0)
         share_uid_list = ",".join(map(str, share_uid_lists.get(aid, [])))
 
-        timestamp = str(1506000000000 + index)
+        timestamp = str(1506332297000 + index * 10000)
 
         f.write("(" + \
                 "\"" + timestamp + "\", " + \

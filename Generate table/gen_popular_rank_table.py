@@ -3,19 +3,19 @@ from datetime import datetime
 
 # Connect to your MySQL database
 connection = pymysql.connect(
-    host='your_host',
-    user='your_user',
-    password='your_password',
-    database='your_database',
-    port='your_port'
+    host='127.0.0.1',
+    user='root',
+    password='TAN@mysql',
+    database='ddbms_orig',
+    port=3306
 )
 
 # Create a cursor object to execute SQL queries
 cursor = connection.cursor()
 
 # Query the be-read table
-cursor.execute("SELECT * FROM be_read ORDER BY readNum DESC LIMIT 10;")
-top_reads = cursor.fetchall()
+cursor.execute("SELECT * FROM be_read;")
+reads = cursor.fetchall()
 
 # Close the database connection
 connection.close()
@@ -25,11 +25,15 @@ daily_articles = []
 weekly_articles = []
 monthly_articles = []
 
-current_date = datetime.now()
+for read in reads:
+    read_biggest_timestamp = max(datetime.utcfromtimestamp(read[1]))
+    read_smallest_timestamp = min(datetime.utcfromtimestamp(read[1]))
+    time_difference = read_biggest_timestamp - read_smallest_timestamp
 
-for read in top_reads:
-    read_timestamp = datetime.utcfromtimestamp(read[1])
-    time_difference = current_date - read_timestamp
+    # Print the results
+    print("Biggest Timestamp:", read_biggest_timestamp)
+    print("Smallest Timestamp:", read_smallest_timestamp)
+    print("Time Difference:", time_difference)
 
     if time_difference.days <= 1:
         daily_articles.append(read[2])  # Assuming aid is at index 2, adjust accordingly
@@ -39,6 +43,7 @@ for read in top_reads:
         monthly_articles.append(read[2])
 
 # Convert current_date to Unix timestamp
+current_date = datetime.now()
 current_unix_timestamp = int(current_date.timestamp())
 
 # Now you can use the fetched data to generate the "Popular Rank" table
@@ -70,4 +75,4 @@ with open("popular_rank.sql", "w+") as f:
         else:
             f.write(";\n")
     # Unlock the tables
-    f.write("UNLOCK TABLES;\n")
+    f.write("UNLOCK TABLES;")

@@ -41,7 +41,6 @@ with open("be_read.sql", "w+") as f:
             "  `shareNum` bigint DEFAULT NULL,\n" +  \
             "  `shareUidList` text,\n" + \
             "  PRIMARY KEY (`id`),\n" + \
-            "  CONSTRAINT `fk_be_read_aid` FOREIGN KEY (`aid`) REFERENCES `article` (`aid`)\n" + \
             ") ENGINE=InnoDB DEFAULT CHARSET=utf8;\n\n")
 
     f.write("LOCK TABLES `be_read` WRITE;\n")

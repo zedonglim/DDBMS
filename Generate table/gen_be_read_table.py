@@ -40,7 +40,7 @@ with open("be_read.sql", "w+") as f:
             "  `agreeUidList` text,\n" +  \
             "  `shareNum` bigint DEFAULT NULL,\n" +  \
             "  `shareUidList` text,\n" + \
-            "  PRIMARY KEY (`id`),\n" + \
+            "  PRIMARY KEY (`id`)\n" + \
             ") ENGINE=InnoDB DEFAULT CHARSET=utf8;\n\n")
 
     f.write("LOCK TABLES `be_read` WRITE;\n")

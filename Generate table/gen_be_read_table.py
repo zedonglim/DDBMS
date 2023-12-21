@@ -124,4 +124,4 @@ with open("be_read/be_read.sql", "w+") as f:
                 str(share_num) + ", " + \
                 "\"" + share_uid_list + "\"" + ")" + ("," if index < len(distinct_aids) - 1 else ";") + "\n")
 
-    f.write("UNLOCK TABLES;\n\n\n")
+    f.write("UNLOCK TABLES;")

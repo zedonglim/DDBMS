@@ -1,13 +1,12 @@
 import pymysql
-import random
 
 # Connect to your MySQL database
 connection = pymysql.connect(
-    host='127.0.0.1',
-    user='root',
-    password='TAN@mysql',
-    database='ddbms_orig',
-    port=3306
+    host='your_host',
+    user='your_user',
+    password='your_password',
+    database='your_database',
+    port='your_port'
 )
 
 # Create a cursor object to execute SQL queries
@@ -31,7 +30,7 @@ with open("be_read.sql", "w+") as f:
     f.write("DROP TABLE IF EXISTS `be_read`;\n")
     f.write("CREATE TABLE `be_read` (\n" + \
             "  `id` bigint NOT NULL AUTO_INCREMENT,\n" + \
-            "  `timestamp` char(14) DEFAULT NULL,\n" + \
+            "  `timestamp` text DEFAULT NULL,\n" + \
             "  `aid` char(7) DEFAULT NULL,\n" + \
             "  `readNum` bigint DEFAULT NULL,\n" +  \
             "  `readUidList` text,\n" +  \
@@ -47,17 +46,18 @@ with open("be_read.sql", "w+") as f:
 
     f.write("LOCK TABLES `be_read` WRITE;\n")
     
-    # Dictionary to keep track of read, comment, agree, and share counts
+    # Dictionary to keep track of read, comment, agree, and share counts 
     read_count = {}
     comment_count = {}
     agree_count = {}
     share_count = {}
 
-    # Dictionary to store lists of uids for read, comment, agree, and share
+    # Dictionary to store lists of uids for read, comment, agree, share, and timestamp of each aid
     read_uid_lists = {}
     comment_uid_lists = {}
     agree_uid_lists = {}
     share_uid_lists = {}
+    aid_timestamp_lists = {}
 
     # Set to store distinct aid values from user_read table
     distinct_aids = set()
@@ -66,7 +66,7 @@ with open("be_read.sql", "w+") as f:
     for read in reads:
         aid = read[3]  # Assuming the column index for 'aid' in user_read table is 3
         uid = read[2]  # Assuming the column index for 'uid' in user_read table is 2
-        # timestamp = read[1] # Assuming the column index for 'timestamp' in user_read table is 1
+        timestamp = read[1] # Assuming the column index for 'timestamp' in user_read table is 1
 
         if aid not in distinct_aids:
             distinct_aids.add(aid)
@@ -74,6 +74,9 @@ with open("be_read.sql", "w+") as f:
         # Read counts
         read_count[aid] = read_count.get(aid, 0) + 1
         read_uid_lists.setdefault(aid, set()).add(uid)
+
+        # Timestamp
+        aid_timestamp_lists.setdefault(aid, set()).add(timestamp)
 
         # Comment counts
         if read[6] == "1":  # Assuming the column index for 'commentOrNot' in user_read table is 6
@@ -108,10 +111,10 @@ with open("be_read.sql", "w+") as f:
         share_num = share_count.get(aid, 0)
         share_uid_list = ",".join(map(str, share_uid_lists.get(aid, [])))
 
-        timestamp = str(1506332297000 + index * 10000)
+        timestamp_list = ",".join(map(str, aid_timestamp_lists.get(aid, [])))
 
         f.write("(" + \
-                "\"" + timestamp + "\", " + \
+                "\"" + timestamp_list + "\", " + \
                 "\"" + aid + "\", " + \
                 str(read_num) + ", " + \
                 "\"" + read_uid_list + "\", " + \

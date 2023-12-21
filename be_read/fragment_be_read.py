@@ -67,8 +67,7 @@ with open('be_read_dbms1.sql', 'w') as file:
             "  `agreeUidList` text,\n" +  \
             "  `shareNum` bigint DEFAULT NULL,\n" +  \
             "  `shareUidList` text,\n" + \
-            "  PRIMARY KEY (`id`),\n" + \
-            "  CONSTRAINT `fk_be_read_aid` FOREIGN KEY (`aid`) REFERENCES `article` (`aid`)\n" + \
+            "  PRIMARY KEY (`id`)\n" + \
             ") ENGINE=InnoDB DEFAULT CHARSET=utf8;\n\n")
     file.write("LOCK TABLES `be_read` WRITE;\n")
     file.write('INSERT INTO `be_read` (`timestamp`, `aid`, `readNum`, `readUidList`, `commentNum`, `commentUidList`, `agreeNum`, `agreeUidList`, `shareNum`, `shareUidList`) VALUES\n' + "".join(dbms1_rows) + ';')

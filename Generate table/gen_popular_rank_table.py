@@ -6,7 +6,7 @@ connection = pymysql.connect(
     host='127.0.0.1',
     user='root',
     password='TAN@mysql',
-    database='ddbms_orig',
+    database='dmbs2',
     port=3306
 )
 
@@ -26,8 +26,9 @@ weekly_articles = []
 monthly_articles = []
 
 for read in reads:
-    read_biggest_timestamp = max(datetime.utcfromtimestamp(read[1]))
-    read_smallest_timestamp = min(datetime.utcfromtimestamp(read[1]))
+    timestamps = [(int(timestamp) / 1000) for timestamp in read[1].split(",")]
+    read_biggest_timestamp = datetime.utcfromtimestamp(max(timestamps))
+    read_smallest_timestamp = datetime.utcfromtimestamp(min(timestamps))
     time_difference = read_biggest_timestamp - read_smallest_timestamp
 
     # Print the results

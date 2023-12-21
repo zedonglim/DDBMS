@@ -26,7 +26,7 @@ reads = cursor.fetchall()
 connection.close()
 
 # Now you can use the fetched data to generate the "Be Read" table
-with open("be_read.sql", "w+") as f:
+with open("be_read/be_read.sql", "w+") as f:
     f.write("DROP TABLE IF EXISTS `be_read`;\n")
     f.write("CREATE TABLE `be_read` (\n" + \
             "  `id` bigint NOT NULL AUTO_INCREMENT,\n" + \
@@ -65,7 +65,7 @@ with open("be_read.sql", "w+") as f:
     for read in reads:
         aid = read[3]  # Assuming the column index for 'aid' in user_read table is 3
         uid = read[2]  # Assuming the column index for 'uid' in user_read table is 2
-        timestamp = read[1] # Assuming the column index for 'timestamp' in user_read table is 1
+        timestamp = read[0] # Assuming the column index for 'timestamp' in user_read table is 1
 
         if aid not in distinct_aids:
             distinct_aids.add(aid)

@@ -27,21 +27,69 @@ monthly_articles = []
 
 for read in reads:
     timestamps = [(int(timestamp) / 1000) for timestamp in read[1].split(",")]
-    read_biggest_timestamp = datetime.utcfromtimestamp(max(timestamps))
+    # read_biggest_timestamp = datetime.utcfromtimestamp(max(timestamps))
     read_smallest_timestamp = datetime.utcfromtimestamp(min(timestamps))
-    time_difference = read_biggest_timestamp - read_smallest_timestamp
+    # time_difference = read_biggest_timestamp - read_smallest_timestamp
+
+    # Initialize counters for each temporal granularity
+    daily_count = 0
+    weekly_count = 0
+    monthly_count = 0
+
+    # Iterate through timestamps and count occurrences within ranges
+    for timestamp in timestamps:
+        # Calculate the difference in days between timestamps
+        time_difference = (datetime.utcfromtimestamp(timestamp) - read_smallest_timestamp).days
+
+        # Check if the timestamp falls within the specified ranges
+        if 0 <= time_difference <= 1:
+            daily_count += 1
+        elif 0 <= time_difference <= 7:
+            weekly_count += 1
+        elif 0 <= time_difference <= 30:
+            monthly_count += 1
+
+    # Determine the temporal granularity based on the threshold values
+    threshold_daily = 100
+    threshold_weekly = 200
+    threshold_monthly = 300
+
+    temporal_granularity = "daily"
+
+    if weekly_count >= threshold_weekly:
+        temporal_granularity = "weekly"
+    if monthly_count >= threshold_monthly:
+        temporal_granularity = "monthly"
 
     # Print the results
-    print("Biggest Timestamp:", read_biggest_timestamp)
+    print("Article ID:", read[2])
     print("Smallest Timestamp:", read_smallest_timestamp)
-    print("Time Difference:", time_difference)
+    print("Daily Count:", daily_count)
+    print("Weekly Count:", weekly_count)
+    print("Monthly Count:", monthly_count)
+    print("Temporal Granularity:", temporal_granularity)
 
-    if time_difference.days <= 1:
-        daily_articles.append(read[2])  # Assuming aid is at index 2, adjust accordingly
-    elif time_difference.days <= 7:
+    # Add the article ID to the corresponding list based on the determined granularity
+    if temporal_granularity == "daily":
+        daily_articles.append(read[2])
+    elif temporal_granularity == "weekly":
         weekly_articles.append(read[2])
-    elif time_difference.days <= 30:
+    elif temporal_granularity == "monthly":
         monthly_articles.append(read[2])
+
+    print("\n")
+
+    # # Print the results
+    # print("Biggest Timestamp:", read_biggest_timestamp)
+    # print("Smallest Timestamp:", read_smallest_timestamp)
+    # print("Time Difference:", time_difference)
+
+    # if time_difference.days <= 1:
+    #     daily_articles.append(read[2])  # Assuming aid is at index 2, adjust accordingly
+    # elif time_difference.days <= 7:
+    #     weekly_articles.append(read[2])
+    # elif time_difference.days <= 30:
+    #     monthly_articles.append(read[2])
 
 # Convert current_date to Unix timestamp
 current_date = datetime.now()

@@ -48,20 +48,22 @@ for read in reads:
         # time_difference = (datetime.utcfromtimestamp(timestamp) - read_smallest_timestamp).days
 
         # Check if the timestamp falls within the specified ranges
-        if read_smallest_timestamp <= timestamp <= next_day:
+        if read_smallest_timestamp <= datetime.utcfromtimestamp(timestamp) <= next_day:
             daily_count += 1
-        elif read_smallest_timestamp <= timestamp <= next_week:
+        if read_smallest_timestamp <= datetime.utcfromtimestamp(timestamp) <= next_week:
             weekly_count += 1
-        elif read_smallest_timestamp <= timestamp <= next_month:
+        if read_smallest_timestamp <= datetime.utcfromtimestamp(timestamp) <= next_month:
             monthly_count += 1
 
     # Determine the temporal granularity based on the threshold values
-    threshold_daily = 100
-    threshold_weekly = 200
-    threshold_monthly = 300
-
-    temporal_granularity = "daily"
-
+    threshold_daily = 4
+    threshold_weekly = 12
+    threshold_monthly = 35
+    
+    # print(f"Daily Count: {daily_count}\n Weekly Count: {weekly_count}\n Monthly Count: {monthly_count}\n")
+    temporal_granularity = ""
+    if daily_count >= threshold_daily:
+        temporal_granularity = "daily"
     if weekly_count >= threshold_weekly:
         temporal_granularity = "weekly"
     if monthly_count >= threshold_monthly:
@@ -99,7 +101,7 @@ for read in reads:
 
 # Convert current_date to Unix timestamp
 current_date = datetime.now()
-current_unix_timestamp = int(current_date.timestamp())
+current_unix_timestamp = int(current_date.timestamp())*1000
 
 # Now you can use the fetched data to generate the "Popular Rank" table
 with open("popular_rank.sql", "w+") as f:
@@ -113,7 +115,7 @@ with open("popular_rank.sql", "w+") as f:
             ") ENGINE=InnoDB DEFAULT CHARSET=utf8;\n\n")
 
     f.write("LOCK TABLES `popular_rank` WRITE;\n")
-
+    print(f"Daily: {len(daily_articles)}\nWeekly: {len(weekly_articles)}\nMonthly: {len(monthly_articles)}\n")
     # Prepare the data for insertion
     data = [
         (str(current_unix_timestamp), 'daily', ','.join(map(str, daily_articles))),

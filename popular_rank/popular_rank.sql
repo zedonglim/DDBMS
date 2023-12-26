@@ -4,7 +4,7 @@ CREATE TABLE `popular_rank` (
   `timestamp` char(14) DEFAULT NULL,
   `temporalGranularity` text,
   `articleAidList` text,
-  PRIMARY KEY (`id`),
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 LOCK TABLES `popular_rank` WRITE;

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Article Page</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header class="navigation">
+        <a href="#">Home</a>
+        <a href="#">Category</a>
+        <a href="#">Region</a>
+    </header>
+    
+    <main class="content">
+        <section class="articles">
+            
+            {% for article in articles %}
+            <article class="article-preview">
+                {% if article['image'] %}
+                <div class="article-image">
+                    <img src="{{ url_for('index.custom_static', filename=article['image'][0]) }}" alt="Article Image">
+                </div>
+                {% endif %}
+                <div class="article-details">
+                    <h2>{{ article["title"] }}</h2>
+                    <p>{{ article['abstract'] }}</p>
+                    <div class="article-stats">
+                        <span class="stat">Published on: {{ article['publishTime'] }}</span>
+                        <span class="stat">Views: {{ article['readNum'] }}</span>
+                        <span class="stat">Comments: {{ article['commentNum'] }}</span>
+                    </div>
+                    
+                    <a href="{{ url_for('index.article', aid=article['aid']) }}">Read more</a>
+                </div>
+            </article>
+        {% endfor %}
+
+
+            <div class="pagination">
+                {% if current_page > 1 %}
+                    <a href="{{ url_for('index', page=1) }}">First</a>
+                    <a href="{{ url_for('index', page=current_page-1) }}">&laquo; Previous</a>
+                {% endif %}
+            
+                <!-- Show first page if it's not in the first three pages -->
+                {% if current_page > 3 %}
+                    <a href="{{ url_for('index', page=1) }}">1</a>
+                    <span>...</span>
+                {% endif %}
+            
+                <!-- Show the two pages before the current page -->
+                {% for num in range(current_page-2, current_page) %}
+                    {% if num > 1 %}
+                        <a href="{{ url_for('index', page=num) }}">{{ num }}</a>
+                    {% endif %}
+                {% endfor %}
+            
+                <!-- Show the current page -->
+                <span class="current-page">{{ current_page }}</span>
+            
+                <!-- Show the two pages after the current page -->
+                {% for num in range(current_page+1, current_page+3) %}
+                    {% if num < total_pages %}
+                        <a href="{{ url_for('index', page=num) }}">{{ num }}</a>
+                    {% endif %}
+                {% endfor %}
+            
+                <!-- Show last page if it's not in the last three pages -->
+                {% if current_page < total_pages - 2 %}
+                    <span>...</span>
+                    <a href="{{ url_for('index', page=total_pages) }}">{{ total_pages }}</a>
+                {% endif %}
+            
+                {% if current_page < total_pages %}
+                    <a href="{{ url_for('index', page=current_page+1) }}">Next &raquo;</a>
+                    <a href="{{ url_for('index', page=total_pages) }}">Last</a>
+                {% endif %}
+            </div>
+            
+        </section>
+        
+        <aside class="sidebar">
+            <div class="popular-articles">
+                <h3>Popular articles</h3>
+                <button class="button">daily</button>
+                <button class="button">weekly</button>
+                <button class="button">monthly</button>
+            </div>
+        </aside>
+    </main>
+</body>
+</html>

@@ -1,0 +1,199 @@
+/* Basic Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #f4f7f6;
+    color: #444;
+    line-height: 1.6;
+}
+
+/* Navigation Styles */
+.navigation {
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding: 10px;
+    text-align: center;
+}
+
+.navigation a {
+    margin: 0 15px;
+    text-decoration: none;
+    color: #5d647b;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.navigation a:hover {
+    color: #3498db;
+}
+
+/* Main Content Styles */
+.content {
+    display: flex;
+    margin-top: 20px;
+    justify-content: center;
+}
+
+.articles {
+    flex: 3; /* Takes 3/4th of the space */
+    padding: 0 20px;
+}
+
+.articles article {
+    background-color: #ffffff;
+    margin-bottom: 20px;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    /* transition: transform 0.3s ease, box-shadow 0.3s ease; */
+}
+
+.articles article:hover {
+    /* transform: translateY(-5px); */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.article-preview {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    border-radius: 8px;
+}
+
+.article-image {
+    flex: 0 0 150px; /* Adjust the width as needed */
+    margin-right: 20px;
+}
+
+.article-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+}
+
+.article-details {
+    flex: 1;
+}
+
+.article-details h2 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+    color: #333;
+}
+
+.article-details p {
+    margin-bottom: 10px;
+}
+
+.article-stats {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.article-stats .stat {
+    margin-right: 15px;
+}
+
+.article-preview a {
+    display: inline-block;
+    margin-top: 10px;
+    color: #007bff;
+    text-decoration: none;
+}
+
+.article-preview a:hover {
+    text-decoration: underline;
+}
+/* You can add media queries to handle responsiveness as needed */
+
+
+.sidebar {
+    flex: 1; /* Takes 1/4th of the space */
+    padding: 0 20px;
+}
+
+.popular-articles {
+    position: sticky;
+    top: 20px;
+}
+
+.popular-articles h3 {
+    color: #3498db;
+    margin-bottom: 15px;
+    padding-left: 8px;
+}
+
+.button {
+    display: block;
+    background-color: #3498db;
+    color: #fff;
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.button:hover {
+    background-color: #2980b9;
+}
+
+/* Add responsive design */
+@media (max-width: 768px) {
+    .content {
+        flex-direction: column;
+    }
+
+    .articles, .sidebar {
+        padding: 20px;
+    }
+    
+    .sidebar {
+        order: -1; /* Show the sidebar above the articles on small screens */
+    }
+}
+
+/* ... existing CSS ... */
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.pagination a {
+    padding: 8px 16px;
+    margin: 0 4px;
+    text-decoration: none;
+    border: 1px solid #ddd;
+    color: #3498db;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.pagination a:hover {
+    background-color: #ddd;
+}
+
+.current-page {
+    padding: 8px 16px;
+    margin: 0 4px;
+    border: 1px solid #3498db;
+    border-radius: 5px;
+    background-color: #3498db;
+    color: white;
+}
+
+/* ... */

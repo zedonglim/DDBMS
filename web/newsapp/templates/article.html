@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ article["title"] }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='article.css') }}">
+</head>
+<body>
+    <header class="navigation">
+        <a href="{{ url_for('index', filename='index.html')}}">Home</a>
+        <a href="#">Category</a>
+        <a href="#">Region</a>
+    </header>
+
+    <main>
+        <article class="article-detail">
+            <h1>{{ article["title"] }}</h1>
+            <div class="article-meta">
+                <span>Published on: {{ article["publishTime"]  }}</span>
+                <span>Read count: {{ article['readNum'] }}</span>
+            </div>
+            <div class="article-content">
+                {{ article['content'] | safe }}
+            </div>
+            <div class="article-images">
+                {% for image_path in article['image'] %}
+                    <img src="{{ url_for('index.custom_static', filename=image_path) }}" alt="Article Image">
+                {% endfor %}
+                
+            </div>
+            {% if article['video'] %}
+            <div class="article-images">
+                {% for video_path in article['video'] %}
+                <video id="videoElement" controls></video>
+                <script src="https://cdn.jsdelivr.net/npm/flv.js@1.5.0/dist/flv.min.js"></script>
+                <script>
+                    if (flvjs.isSupported()) {
+                        var videoElement = document.getElementById('videoElement');
+                        var flvPlayer = flvjs.createPlayer({
+                            type: 'flv',
+                            url: "{{ url_for('index.custom_static', filename=video_path) }}"
+                        });
+                        flvPlayer.attachMediaElement(videoElement);
+                        flvPlayer.load();
+                        flvPlayer.play();
+                    }
+                </script>
+                {% endfor %}
+
+                <!-- {% for video_path in article['video'] %}
+                   <p>{{video_path}}</p>
+                    <video src="{{ url_for('index.custom_static', filename=video_path) }}, type="video/flv" width="320" height="240" controls></video>
+                {% endfor %} -->
+            </div>
+            {% endif %}
+            <!-- You can also add comments, sharing buttons, etc. here -->
+        </article>
+        <!-- <img src="D:/THU/semester1/DDBS/Project/db-generation/articles/article1530/image_a1530_0.jpg" alt="manual image"> -->
+    </main>
+
+    <footer>
+        <!-- Footer content goes here -->
+    </footer>
+
+</body>
+</html>

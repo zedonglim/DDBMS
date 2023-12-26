@@ -82,7 +82,7 @@ with open("popular_rank.sql", "w+") as f:
             "  `timestamp` char(14) DEFAULT NULL,\n" + \
             "  `temporalGranularity` text,\n" +  \
             "  `articleAidList` text,\n" + \
-            "  PRIMARY KEY (`id`),\n" + \
+            "  PRIMARY KEY (`id`)\n" + \
             ") ENGINE=InnoDB DEFAULT CHARSET=utf8;\n\n")
 
     f.write("LOCK TABLES `popular_rank` WRITE;\n")

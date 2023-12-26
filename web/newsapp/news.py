@@ -1,10 +1,18 @@
-from flask import Blueprint, url_for, request, render_template, send_from_directory
+from flask import Blueprint, url_for, request, render_template, send_from_directory, Response
 import pymysql
 from datetime import datetime
 import math
+import mimetypes
+from minio import Minio
+
 
 bp = Blueprint('index', __name__,)
 
+
+minio_client = Minio('127.0.0.1:9000',
+                     access_key='minioadmin',
+                     secret_key='minioadmin',
+                     secure=False)
 
 def get_db(dbms):
    connection = pymysql.connect(
@@ -71,9 +79,13 @@ def get_article(page, per_page):
       return articles
 
 def get_article_content(aid):
-   base_path = "D:/THU/semester1/DDBS/Project/db-generation/articles"
-   with open(f"{base_path}/article{aid}/text_a{aid}.txt") as f:
-      return f.read()
+    try:
+        data = minio_client.get_object('articledata', f'articles/article{aid}/text_a{aid}.txt')
+        return data.read().decode('utf-8')
+    except Exception as e:
+        print(e)
+        return None
+
 
 
 @bp.route('/article/<int:aid>')
@@ -104,17 +116,30 @@ def article(aid):
    
    return render_template('article.html', article = article_data)
 
-def media_paths(aid, image_name):
-   names = image_name.split(",")
-   paths = []
-   # base_path = "D:/THU/semester1/DDBS/Project/db-generation/articles"
-   for name in names:
-      name.strip()
-      if name:
-         paths.append(f"/article{aid}/{name}")
-   print(paths)
-   return paths
 
-@bp.route('/media/<path:filename>')
+def media_paths(aid, media_names):
+    names = media_names.split(",")
+    paths = []
+    for name in names:
+        name = name.strip()
+        if name:
+            paths.append(url_for('index.custom_static', filename=f'article{aid}/{name}'))
+    print("Paths:", paths)
+    return paths
+
+
+@bp.route('/<path:filename>')
 def custom_static(filename):
-    return send_from_directory(r'D:/THU/semester1/DDBS/Project/db-generation/articles', filename)
+    try:
+        # Prepend the base path to the filename
+        full_path = 'articles/' + filename
+
+        # Fetch the object from MinIO using the full path
+        data = minio_client.get_object('articledata', full_path)
+        content_type = mimetypes.guess_type(full_path)[0] or 'application/octet-stream'
+
+        # Stream the data back in the response
+        return Response(data.stream(32*1024), content_type=content_type)
+    except Exception as e:
+        print(e)  # Log the error for debugging
+        return str(e), 404

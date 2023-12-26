@@ -18,7 +18,7 @@ def create_app(test_config=None):
         # load the test config if passed in
         app.config.from_mapping(test_config)
 
-    
+
     # register api blueprint
     app.register_blueprint(news.bp)
     app.add_url_rule('/', endpoint='index')

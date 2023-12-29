@@ -1,6 +1,5 @@
 
 from flask import Flask
-from flask_cors import CORS
 from . import news
 def create_app(test_config=None):
     # create and configure the app

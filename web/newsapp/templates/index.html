@@ -8,14 +8,20 @@
 </head>
 <body>
     <header class="navigation">
-        <a href="#">Home</a>
-        <a href="#">Category</a>
-        <a href="#">Region</a>
+        <a href="{{url_for('index')}}">Home</a>
+        <a href="", id="categorytype">Category</a>
+         
     </header>
     
     <main class="content">
         <section class="articles">
-            
+            <!-- if its category page, then show the 2 buttons else hide -->
+            <div class="category_button" style="display: none; margin-bottom: 10px;">
+                <!-- <button id="tech" class="active">Technology</button> -->
+                <a href="{{url_for('index.filter_category', category='technology')}}" id="tech">Technology</a>
+                <!-- <button id="science">Science</button> -->
+                <a href="{{url_for('index.filter_category', category='science')}}" id="science">Science</a>
+            </div>
             {% for article in articles %}
             <article class="article-preview">
                 {% if article['image'] %}
@@ -30,6 +36,9 @@
                         <span class="stat">Published on: {{ article['publishTime'] }}</span>
                         <span class="stat">Views: {{ article['readNum'] }}</span>
                         <span class="stat">Comments: {{ article['commentNum'] }}</span>
+                        <span class="stat">Category: {{ article['category'] }}</span>
+                        <span class="stat">Author: {{ article['author'] }}</span>
+
                     </div>
                     
                     <a href="{{ url_for('index.article', aid=article['aid']) }}">Read more</a>
@@ -83,12 +92,46 @@
         
         <aside class="sidebar">
             <div class="popular-articles">
-                <h3>Popular articles</h3>
-                <button class="button">daily</button>
-                <button class="button">weekly</button>
-                <button class="button">monthly</button>
+                <h3>Popular Articles</h3>
+                <h4>Daily</h4>
+                {% for article in popular['daily'] %}
+                <a href="{{ url_for('index.article', aid=article['aid']) }}" class="article-link">{{ loop.index }}. {{ article['title'] }}</a><br>
+                {% endfor %}
+                <h4>Weekly</h4>
+                {% for article in popular['weekly'] %}
+                <a href="{{ url_for('index.article', aid=article['aid']) }}" class="article-link">{{ loop.index }}. {{ article['title'] }}</a><br>
+                {% endfor %}
+                <h4>Monthly</h4>
+                {% for article in popular['monthly'] %}
+                <a href="{{ url_for('index.article', aid=article['aid']) }}" class="article-link">{{ loop.index }}. {{ article['title'] }}</a><br>
+                {% endfor %}
             </div>
         </aside>
+        
     </main>
+    <script>
+    document.getElementById('categorytype').addEventListener('click', function(event){
+        event.preventDefault(); // Prevents the default action of the link
+        var categoryDiv = document.querySelector('.category_button');
+        categoryDiv.style.display = 'block';
+
+    });
+    document.getElementById('tech').addEventListener('click', function(event){
+        // event.preventDefault(); // Prevents the default action of the link
+        var categoryDiv = document.querySelector('#tech');
+        categoryDiv.classList.add("active");
+        var categoryDiv = document.querySelector('#science');
+        categoryDiv.classList.remove("active");
+
+    });
+    document.getElementById('science').addEventListener('click', function(event){
+        // event.preventDefault(); // Prevents the default action of the link
+        var categoryDiv = document.querySelector('#tech');
+        categoryDiv.classList.remove("active");
+        var categoryDiv = document.querySelector('#science');
+        categoryDiv.classList.add("active");
+
+    });
+    </script>
 </body>
 </html>

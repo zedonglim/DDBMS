@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Article Page</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header class="navigation">
+        <a href="{{url_for('index')}}">Home</a>
+         
+    </header>
+    
+    <main class="content">
+        <section class="articles">
+            <article class=".user-table">
+                <form action="" method="POST">
+                    <input type="text" name="uid">
+                    <button type="submit">query</button>
+                </form>
+         
+            <h1>User's info</h1>
+            {% if users|length != 0 %}
+            <p>UID: {{users[0]['uid']}}</p>
+            <p>Name: {{users[0]['name']}}</p>
+            <p>Region: {{users[0]['region']}}</p>
+            <div>
+            <h1>User read article list:</h1>
+                {% for user in users %}
+                <a href="{{ url_for('index.article', aid=user['aid']) }}">{{ user['aid'] }}, </a>
+            {% endfor %}
+            {% endif %}
+
+            {% if users|length == 0 %}
+                <p>No user found.</p>
+            {% endif %}
+            </div>
+
+        <!-- <table>
+        <tr>
+            <th>User read article list</th>
+        </tr>
+        
+        <tr>
+            {% set counter = 0 %}
+            {% for user in users %}
+                <td><a href="{{ url_for('index.article', aid=user['aid']) }}">{{ user['aid'] }}</a></td>
+                {% set counter = counter + 1 %}
+                {% if counter % 10 == 0 %}
+                    </tr><tr> 
+                {% endif %}
+            {% endfor %}
+        </tr>
+        
+    </table> -->
+
+    </article>
+            
+        </section>
+        
+        <aside class="sidebar">
+            <div class="popular-articles">
+                <h3>Popular Articles</h3>
+                <h4>Daily</h4>
+                {% for article in popular['daily'] %}
+                <a href="{{ url_for('index.article', aid=article['aid']) }}" class="article-link">{{ loop.index }}. {{ article['title'] }}</a><br>
+                {% endfor %}
+                <h4>Weekly</h4>
+                {% for article in popular['weekly'] %}
+                <a href="{{ url_for('index.article', aid=article['aid']) }}" class="article-link">{{ loop.index }}. {{ article['title'] }}</a><br>
+                {% endfor %}
+                <h4>Monthly</h4>
+                {% for article in popular['monthly'] %}
+                <a href="{{ url_for('index.article', aid=article['aid']) }}" class="article-link">{{ loop.index }}. {{ article['title'] }}</a><br>
+                {% endfor %}
+            </div>
+        </aside>
+        
+    </main>
+    <script>
+    document.getElementById('categorytype').addEventListener('click', function(event){
+        event.preventDefault(); // Prevents the default action of the link
+        var categoryDiv = document.querySelector('.category_button');
+        categoryDiv.style.display = 'block';
+
+    });
+    document.getElementById('tech').addEventListener('click', function(event){
+        // event.preventDefault(); // Prevents the default action of the link
+        var categoryDiv = document.querySelector('#tech');
+        categoryDiv.classList.add("active");
+        var categoryDiv = document.querySelector('#science');
+        categoryDiv.classList.remove("active");
+
+    });
+    document.getElementById('science').addEventListener('click', function(event){
+        // event.preventDefault(); // Prevents the default action of the link
+        var categoryDiv = document.querySelector('#tech');
+        categoryDiv.classList.remove("active");
+        var categoryDiv = document.querySelector('#science');
+        categoryDiv.classList.add("active");
+
+    });
+    </script>
+</body>
+</html>

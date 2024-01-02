@@ -248,9 +248,9 @@ def article(aid):
    article_data['lang'] = article[8]
    article_data['image'] = media_paths(aid, article[10])
    article_data['video'] = media_paths(aid, article[11])
-   print("Article Image: ", article_data['image'])
-   print("Article Video: ", article_data['video'])
-   return render_template('article.html', article = article_data)
+   
+   popular = popular_article()
+   return render_template('article.html', article = article_data, popular=popular)
 
 
 def media_paths(aid, media_names):
@@ -326,3 +326,62 @@ def filter_category(category):
         #  print(type(article))
         articles.append(article)
     return render_template('index.html', articles=articles, total_pages = total_pages, current_page=page, popular=popular)
+
+@bp.route('/users', methods=['GET', 'POST'])
+def users():
+    if request.method == "POST":
+        uid = request.form.get('uid')
+        print(uid)
+        print(type(uid))
+    else:
+        uid = 1837
+    page = request.args.get('page', 1, type=int)
+    total_read = get_user_read_num()
+    # articles = get_article(page, 4)
+    popular = popular_article()
+    per_page = 10
+    
+    total_pages = math.ceil(total_read / per_page)
+
+    users = get_users(uid)
+    
+    return render_template('users.html', users=users, total_pages = total_pages, current_page=page, popular=popular)
+
+def get_users(uid):
+    users = []
+    cursor1.execute("SELECT u.uid, u.name, u.region, ur.aid, ur.readTimeLength FROM user u INNER JOIN user_read ur on u.uid = ur.uid where u.uid=%s", (uid))
+    users1 = cursor1.fetchall()
+    if not users1:
+         cursor2.execute("SELECT u.uid, u.name, u.region, ur.aid, ur.readTimeLength FROM user u INNER JOIN user_read ur on u.uid = ur.uid where u.uid=%s", (uid))
+         users1 = cursor2.fetchall()
+         if not users1:
+            return []
+    for row in users1:
+        user = {}
+        user['uid'] = row[0]
+        user['name'] = row[1]
+        user['region'] = row[2]
+        user['aid'] = row[3]
+        user['readTimeLength'] = row[4]
+        users.append(user)
+   
+    
+    # users2 = cursor2.fetchall()
+    # for row in users2:
+    #     user = {}
+    #     user['uid'] = row[0]
+    #     user['name'] = row[1]
+    #     user['region'] = row[2]
+    #     user['aid'] = row[3]
+    #     user['readTimeLength'] = row[4]
+    #     users.append(user)
+    
+    return users
+
+
+def get_user_read_num():
+    cursor1.execute("SELECT count(*) FROM user_read")
+    count1 = cursor1.fetchone()[0]
+    cursor2.execute("SELECT count(*) FROM user_read")
+    count2 = cursor2.fetchone()[0]
+    return count1 + count2

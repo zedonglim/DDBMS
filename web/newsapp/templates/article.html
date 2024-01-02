@@ -13,7 +13,7 @@
     </header>
 
     <main>
-        <article class="article-detail">
+        <article class="article-view">
             <h1>{{ article["title"] }}</h1>
             <div class="article-meta">
                 <span>Published on: {{ article["publishTime"]  }}</span>
@@ -46,21 +46,13 @@
                     }
                 </script>
                 {% endfor %}
-
-                <!-- {% for video_path in article['video'] %}
-                   <p>{{video_path}}</p>
-                    <video src="{{ url_for('index.custom_static', filename=video_path) }}, type="video/flv" width="320" height="240" controls></video>
-                {% endfor %} -->
+                
             </div>
             {% endif %}
             <!-- You can also add comments, sharing buttons, etc. here -->
         </article>
-        <!-- <img src="D:/THU/semester1/DDBS/Project/db-generation/articles/article1530/image_a1530_0.jpg" alt="manual image"> -->
+     
     </main>
-
-    <footer>
-        <!-- Footer content goes here -->
-    </footer>
 
 </body>
 </html>

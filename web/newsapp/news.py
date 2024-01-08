@@ -1,4 +1,4 @@
-from flask import Blueprint, url_for, request, render_template, send_from_directory, Response
+from flask import Blueprint, url_for, request, render_template, Response
 import pymysql
 from datetime import datetime
 import math
@@ -13,7 +13,6 @@ minio_client = Minio('127.0.0.1:9000',
                      access_key='minioadmin',
                      secret_key='minioadmin',
                      secure=False)
-
 
 def get_db(dbms):
    connection = pymysql.connect(
@@ -310,7 +309,7 @@ def filter_category(category):
             art_info = cursor1.fetchone()
             
         publishTime = int(art_info[0])/1000
-        publishdatae = datetime.utcfromtimestamp(publishTime)
+        publishdatae = datetime.utcfromtimestamp(publishTime).strftime('%Y-%m-%d %H:%M')
         article['id'] = art_info[1]
         article["publishTime"] = publishdatae
         article["title"] = get_article_title(aid)
@@ -365,17 +364,6 @@ def get_users(uid):
         user['readTimeLength'] = row[4]
         users.append(user)
    
-    
-    # users2 = cursor2.fetchall()
-    # for row in users2:
-    #     user = {}
-    #     user['uid'] = row[0]
-    #     user['name'] = row[1]
-    #     user['region'] = row[2]
-    #     user['aid'] = row[3]
-    #     user['readTimeLength'] = row[4]
-    #     users.append(user)
-    
     return users
 
 

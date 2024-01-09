@@ -19,8 +19,8 @@ Then create tables and populate them with data in their respective database usin
 ```
  
  
-### 2. MinIO 
-MinIO cluster is build on docker compose. Therefore docker need to installed. To built the container change current directory to minio folder, where `docker-compose.ymal` is located, then run the following command.
+### 2. MinIO Setup 
+MinIO cluster is build on docker compose. Therefore docker must be installed first. To built the container on docker, change current directory to minio folder, where `docker-compose.ymal` is located, then run the following command.
 ```bash
 $ cd minio
 $ docker-compose up -d
@@ -33,8 +33,12 @@ Then create a bucket and upload the article data.
 
 
 ### 3. Run Flask APP
-
+Make sure the MySQL database and MinIO servers are up and running before running the App. Also configure the ports (connection to the mysql database and minio cluster) in `news.py` file incase there's problem which usually arises if those ports are being used by other application on your machine. <br>
+Then run the the following command to start the APP. 
 ```bash
 cd web
 flask --app newsapp --debug run
 ```
+This should start the app, then visit http://127.0.0.1:5000(The local link on which the flask app is running) to access the app. 
+
+<img src="imgs/demo_home.png" width="500">
